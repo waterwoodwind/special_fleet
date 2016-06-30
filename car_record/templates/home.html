@@ -44,7 +44,7 @@ var container = document.getElementById('example');
 var hot = new Handsontable(container, {
   data: data,
   rowHeaders: true,
-  colHeaders: ['出发日期', '出发时间', '收车日期', '收车时间', '工作者', '工作内容', '车牌号', '此次工时', '操作', '出发时间'],
+  colHeaders: ['出发日期', '出发时间', '收车日期', '收车时间', '工作者', '工作类型', '工作内容', '车牌号', '此次工时', '操作', '出发时间'],
   columns: [
       {data: '出发日期',
        type: 'date',
@@ -59,6 +59,7 @@ var hot = new Handsontable(container, {
        type: 'time',
        dateFormat: 'hh:mm:ss'},
       {data: '工作者'},
+      {data: '工作类型'},
       {data: '工作内容'},
       {data: '车牌号'},
       {data: '此次工时'},
