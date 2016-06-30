@@ -12,4 +12,7 @@ class car_record(models.Model):
     car_id = models.CharField(max_length= 20, verbose_name=u'车牌号')
     task_time = models.DecimalField(max_digits=5, decimal_places=2, verbose_name=u'此次工时')
 
+    def __unicode__(self):
+        return self.worker + "  " + self.job_content
+
 
