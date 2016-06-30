@@ -87,7 +87,10 @@ var hot_sum = new Handsontable(container_sum, {
   readOnly: true,
   colWidths: [120, 120],
   filters: true,
-  height: getHeight()
+  columnSorting: {
+    column: 1,
+    sortOrder: true,
+  },
 });
 
 function getHeight() {
