@@ -53,6 +53,13 @@ def home(request):
             count_sum[item["worker"]] = count_sum[item["worker"]] + item["task_time"]
 
     print count_sum
-    json_sum = json.dumps(count_sum)
+    upload_dict = {}
+    upload_list = []
+    for key,value in count_sum.items():
+        upload_dict = {}
+        upload_dict["worker"] = key
+        upload_dict["sum"] = value
+        upload_list.append(upload_dict)
+    json_sum = json.dumps(upload_list)
 
     return render(request, 'home.html', {'json_data': upload_data, 'json_sum': json_sum})

@@ -1,30 +1,37 @@
 {% extends "base.html" %}
 {% block maincontents %}
-<div class="container-fluid">
-    <button id="today" class="intext-btn">
-        今日
-    </button>
-    <button id="yesterday" class="intext-btn">
-        昨日
-    </button>
-    <button id="last_7_day" class="intext-btn">
-        7日
-    </button>
-    <button id="this_month" class="intext-btn">
-        本月
-    </button>
-    <button id="all" class="intext-btn">
-        所有
-    </button>
-    <button id="reset_filter" class="intext-btn">
-        重置筛选
-    </button>
-    <br>
-    <button id="export-file" class="intext-btn">
-        导出为csv文件
-    </button>
-    <br>
-    <div id="example"></div>
+<div class="row">
+    <div class="col-md-3">
+        <h2>当日统计</h2>
+        <div id="count_sum"></div>
+    </div>
+    <div class="col-md-9">
+        <h2>详细记录</h2>
+        <button id="today" class="intext-btn">
+            今日
+        </button>
+        <button id="yesterday" class="intext-btn">
+            昨日
+        </button>
+        <button id="last_7_day" class="intext-btn">
+            7日
+        </button>
+        <button id="this_month" class="intext-btn">
+            本月
+        </button>
+        <button id="all" class="intext-btn">
+            所有
+        </button>
+        <button id="reset_filter" class="intext-btn">
+            重置筛选
+        </button>
+        <br>
+        <button id="export-file" class="intext-btn">
+            导出为csv文件
+        </button>
+        <br>
+        <div id="example"></div>
+    </div>
 </div><!-- /.container -->
 <script>
 var data = new Array();
@@ -62,6 +69,23 @@ var hot = new Handsontable(container, {
   dropdownMenu: ['filter_by_condition', 'filter_by_value', 'filter_action_bar'],
   readOnly: true,
   colWidths: [120, 120, 120, 120, 100, 100, 88, 100, 100],
+  filters: true,
+  height: getHeight()
+});
+
+var count_sum_data = {{ json_sum | safe }};
+var container_sum = document.getElementById('count_sum');
+var hot_sum = new Handsontable(container_sum, {
+  data: count_sum_data,
+  rowHeaders: true,
+  colHeaders: ['工作者', '当日工时总计'],
+  columns: [
+      {data: 'worker'},
+      {data: 'sum'},
+    ],
+  dropdownMenu: ['filter_by_condition', 'filter_by_value', 'filter_action_bar'],
+  readOnly: true,
+  colWidths: [120, 120],
   filters: true,
   height: getHeight()
 });
@@ -121,7 +145,8 @@ document.addEventListener("DOMContentLoaded", function() {
         all: document.getElementById('all'),
         reset_filter: document.getElementById('reset_filter')
     };
-
+    hot.getPlugin('filters').addFormula(0, 'between', [str_today, str_today]);
+    hot.getPlugin('filters').filter();
     var exportPlugin = hot.getPlugin('exportFile');
     buttons.file.addEventListener('click', function() {
         exportPlugin.downloadFile('csv', {
