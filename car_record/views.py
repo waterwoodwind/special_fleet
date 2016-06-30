@@ -48,9 +48,9 @@ def home(request):
     for single_data in count_data:
         item = single_data[u"fields"]
         if item["worker"] not in count_sum:
-            count_sum[item["worker"]] = item["task_time"]
+            count_sum[item["worker"]] = float(item["task_time"])
         else:
-            count_sum[item["worker"]] = count_sum[item["worker"]] + item["task_time"]
+            count_sum[item["worker"]] = float(count_sum[item["worker"]]) + float(item["task_time"])
 
     print count_sum
     upload_dict = {}
